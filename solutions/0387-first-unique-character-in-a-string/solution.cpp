@@ -2,16 +2,14 @@ class Solution {
 public:
     int firstUniqChar(string s) {
         unordered_map<char, int> cnt;
-        for(char i : s)
+        for(char c: s)
         {
-            cnt[i]++;
+            cnt[c]++;
         }
-        for(auto i : s)
+        for(int i = 0; i < s.length(); i++)
         {
-            if(cnt[i] == 1)
-            {
-                return s.find(i);
-            }
+            if(cnt[s[i]] == 1)
+            return i;
         }
         return -1;
     }
