@@ -1,20 +1,21 @@
 class Solution {
 public:
-    void backtract(vector<string>& arr, string s, int open, int close, int n) {
-        if(open == close && open + close == 0) {
-            arr.push_back(s);
+    void function(vector<string> &ans, string s, int open, int close) {
+        if(open == 0 && close == 0)  {
+            ans.push_back(s);
             return;
-        } 
-        if(open > 0) {
-            backtract(arr, s + "(", open - 1, close, n);
         }
+        if(open > 0) {
+            function(ans, s + "(", open - 1, close);
+        }
+
         if(close > open) {
-            backtract(arr, s + ")", open, close - 1, n);
+            function(ans, s + ")", open, close - 1);
         }
     }
     vector<string> generateParenthesis(int n) {
-        vector<string> s;
-        backtract(s, "",n, n, n);
-        return s;
+        vector<string> ans;
+        function(ans, "", n, n);
+        return ans;
     }
 };
