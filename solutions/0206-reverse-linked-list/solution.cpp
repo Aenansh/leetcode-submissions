@@ -9,17 +9,18 @@
  * };
  */
 class Solution {
-public:
+public:     
     ListNode* reverseList(ListNode* head) {
-        ListNode *after = head;
-        ListNode *before = NULL;
-        ListNode *current = head;
-        while(after && current)
-        {
+        if(!head || !head->next) return head;
+        ListNode* before = nullptr;
+        ListNode* current = head;
+        ListNode* after = head;
+
+        while(current) {
             after = after->next;
             current->next = before;
             before = current;
-             current = after;
+            current = after;
         }
         head = before;
         return head;
