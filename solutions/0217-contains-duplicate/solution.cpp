@@ -1,7 +1,11 @@
 class Solution {
 public:
     bool containsDuplicate(vector<int>& nums) {
-        unordered_set<int> s(nums.begin(), nums.end());
-        return s.size() != nums.size();
+        unordered_map<int, int> hash;
+        for(auto i : nums) {
+            if(hash[i]) return true;
+            hash[i]++;
+        }
+        return false;
     }
 };
