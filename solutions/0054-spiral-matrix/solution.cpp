@@ -7,31 +7,31 @@ public:
         if (matrix.size() == 1)
             return matrix[0];
         if (matrix[0].size() == 1) {
-            for (int i = 0; i < matrix.size(); i++) {
-                ans.push_back(matrix[i][0]);
+            for (auto i : matrix) {
+                ans.push_back(i[0]);
             }
             return ans;
         }
-        auto [bottom, right] =
-            make_pair(matrix.size() - 1, matrix[0].size() - 1);
-        int top = 0, left = 0;
-        while (left <= right && top <= bottom) {
-            for (int i = left; i <= right; i++) {
+
+        int bottom = matrix.size() - 1, right = matrix[0].size() - 1;
+        int left = 0, top = 0;
+        while(left <= right && top <= bottom) {
+            for(int i = left; i <= right; i++) {
                 ans.push_back(matrix[top][i]);
             }
             top++;
-            for (int i = top; i <= bottom; i++) {
+            for(int i = top; i <= bottom; i++) {
                 ans.push_back(matrix[i][right]);
             }
             right--;
-            if (top <= bottom) {
-                for (int i = right; i >= left; i--) {
+            if(top <= bottom) {
+                for(int i = right; i >= left; i--) {
                     ans.push_back(matrix[bottom][i]);
                 }
                 bottom--;
             }
-            if (left <= right) {
-                for (int i = bottom; i >= top; i--) {
+            if(left <= right) {
+                for(int i = bottom; i >= top; i--) {
                     ans.push_back(matrix[i][left]);
                 }
                 left++;
