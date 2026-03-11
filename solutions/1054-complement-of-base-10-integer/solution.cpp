@@ -2,12 +2,13 @@ class Solution {
 public:
     int bitwiseComplement(int n) {
         if(n == 0) return 1;
-        int ans = 0;
-        int d = n;
-        while(n >= 1){
-            ans = (ans << 1) | 1;
-            n = n >> 1;
+        if(n == 1) return 0;
+        int dummy = n;
+        int bits = 0;
+        while(dummy > 0) {
+            dummy >>= 1;
+            bits = bits == 0 ? 1 : bits * 2 + 1;
         }
-        return d ^ ans;
+        return bits ^ n;
     }
 };
