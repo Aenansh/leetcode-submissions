@@ -1,27 +1,24 @@
 class Solution {
-    int solve(vector<vector<int>>& dp, vector<int>& coins, int amount,
-              int idx) {
-        if (idx == 0) {
-            if (amount % coins[idx] == 0)
-                return amount / coins[idx];
+    int solve(vector<int>& coins, int amount, vector<int>& dp) {
+        if (amount == 0)
+            return 0;
+        if (amount < 0)
             return 1e9;
-        }
-        if (dp[idx][amount] != -1)
-            return dp[idx][amount];
-        long notTake = solve(dp, coins, amount, idx - 1);
-        long take = 1e9;
-        if (coins[idx] <= amount)
-            take = 1 + solve(dp, coins, amount - coins[idx], idx);
 
-        return dp[idx][amount] = min(take, notTake);
+        if(dp[amount] != -1) return dp[amount];
+
+        int count = 1e9;
+        for (int i = 0; i < coins.size(); i++) {
+            count = min(count, 1 + solve(coins, amount - coins[i], dp));
+        }
+
+        return dp[amount] = count;
     }
 
 public:
     int coinChange(vector<int>& coins, int amount) {
-        int n = coins.size();
-        vector<vector<int>> dp(n, vector<int>(amount + 1, -1));
-
-        int res = solve(dp, coins, amount, n - 1);
-        return res >= 1e9 ? -1 : res;
+        vector<int> dp(amount + 1, -1);
+        int ans = solve(coins, amount, dp);
+        return ans >= 1e9 ? -1 : ans;
     }
 };
