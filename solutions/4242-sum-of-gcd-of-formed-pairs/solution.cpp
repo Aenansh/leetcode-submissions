@@ -2,22 +2,21 @@ class Solution {
 public:
     long long gcdSum(vector<int>& nums) {
         int n = nums.size();
-        vector<int> great(n, 1);
-        great[0] = nums[0];
-        for(int i = 1; i < n; i++) {
-            great[i] = max(great[i - 1], nums[i]);
+
+        int mx = nums[0];
+        vector<long long> res(n);
+
+        for (int i = 0; i < n; i++) {
+            mx = max(mx, nums[i]);
+            res[i] = 1LL * gcd(mx, nums[i]);
         }
 
-        vector<int> prefixGcd(n, 0);
-        for(int i = 0; i < n; i++) {
-            prefixGcd[i] = gcd(nums[i], great[i]);
-        }
+        sort(begin(res), end(res));
+        long long sum = 0;
 
-        sort(prefixGcd.begin(), prefixGcd.end());
-        long long ans = 0;
-        for(int i = 0, j = n - 1; i < j; i++, j--) {
-            ans += (long long)gcd(prefixGcd[i], prefixGcd[j]);
+        for (int i = 0, j = n - 1; i < j; i++, j--) {
+            sum += gcd(res[i], res[j]);
         }
-        return ans;
+        return sum;
     }
 };
