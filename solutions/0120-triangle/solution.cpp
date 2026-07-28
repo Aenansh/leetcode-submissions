@@ -2,18 +2,24 @@ class Solution {
 public:
     int minimumTotal(vector<vector<int>>& triangle) {
         int n = triangle.size();
+
+        vector<int> upperRow = triangle[0];
+
         for (int i = 1; i < n; i++) {
-            for (int j = 0; j < triangle[i].size(); j++) {
+            vector<int> currRow = triangle[i];
+
+            for (int j = 0; j < currRow.size(); j++) {
                 int sum1 = INT_MAX;
                 int sum2 = INT_MAX;
-                if (j < triangle[i - 1].size())
-                    sum1 = triangle[i - 1][j];
+                if (j < upperRow.size())
+                    sum1 = upperRow[j];
                 if (j - 1 >= 0)
-                    sum2 = triangle[i - 1][j - 1];
-                triangle[i][j] += min(sum1, sum2);
+                    sum2 = upperRow[j - 1];
+                currRow[j] += min(sum1, sum2);
             }
+            upperRow = currRow;
         }
 
-        return *min_element(begin(triangle[n - 1]), end(triangle[n - 1]));
+        return *min_element(begin(upperRow), end(upperRow));
     }
 };
