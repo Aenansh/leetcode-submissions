@@ -1,22 +1,21 @@
 class Solution {
-    int solve(vector<int>& dp, vector<int>& cost, int idx) {
-        if (idx <= 1)
+    int solve(vector<int>& cost, int i, vector<int>& dp) {
+        if (i <= 1)
             return 0;
 
-        if (dp[idx] != -1)
-            return dp[idx];
+        if (dp[i] != -1)
+            return dp[i];
 
-        int left = solve(dp, cost, idx - 1) + cost[idx - 1];
-        int right = solve(dp, cost, idx - 2) + cost[idx - 2];
+        int two = solve(cost, i - 2, dp) + cost[i - 2];
+        int one = solve(cost, i - 1, dp) + cost[i - 1];
 
-        return dp[idx] = min(left, right);
+        return dp[i] = min(two, one);
     }
 
 public:
     int minCostClimbingStairs(vector<int>& cost) {
         int n = cost.size();
         vector<int> dp(n + 1, -1);
-        dp[0] = 0, dp[1] = 0;
-        return solve(dp, cost, n);
+        return solve(cost, n, dp);
     }
 };
