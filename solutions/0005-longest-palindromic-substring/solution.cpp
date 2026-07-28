@@ -1,13 +1,15 @@
 class Solution {
 public:
     string longestPalindrome(string s) {
-        if (s.length() <= 1)
+        int n = s.length();
+        if (n <= 1)
             return s;
 
         int start = 0, maxLen = 1;
-        for (int i = 0; i < s.length(); i++) {
+        for (int i = 0; i < n; i++) {
             int left = i, right = i;
-            while (left >= 0 && right < s.length() && s[left] == s[right]) {
+
+            while (left >= 0 && right < n && s[left] == s[right]) {
                 if (right - left + 1 > maxLen) {
                     start = left;
                     maxLen = right - left + 1;
@@ -15,8 +17,9 @@ public:
                 left--;
                 right++;
             }
+
             left = i, right = i + 1;
-            while (left >= 0 && right < s.length() && s[left] == s[right]) {
+            while (left >= 0 && right < n && s[left] == s[right]) {
                 if (right - left + 1 > maxLen) {
                     start = left;
                     maxLen = right - left + 1;
@@ -25,6 +28,7 @@ public:
                 right++;
             }
         }
+
         return s.substr(start, maxLen);
     }
 };
