@@ -1,14 +1,31 @@
 class Solution {
+    int solve(int amount, vector<int>& coins, int i, vector<vector<int>>& dp) {
+        if (i == 0) {
+            if (amount % coins[i] == 0)
+                return 1;
+            return 0;
+        }
+
+        if (amount < 0)
+            return 0;
+        if (amount == 0)
+            return 1;
+
+        if (dp[i][amount] != -1)
+            return dp[i][amount];
+
+        int skip = solve(amount, coins, i - 1, dp);
+        int take = 0;
+        if (coins[i] <= amount)
+            take = solve(amount - coins[i], coins, i, dp);
+
+        return dp[i][amount] = take + skip;
+    }
+
 public:
     int change(int amount, vector<int>& coins) {
-        vector<unsigned long long int> table(amount + 1, 0);
-        table[0] = 1;
-
-        for(auto c : coins) {
-            for(int i = c; i <= amount; i++) {
-                table[i] += table[i - c];
-            }
-        }
-        return table[amount];
+        int n = coins.size();
+        vector<vector<int>> dp(n, vector<int>(amount + 1, -1));
+        return solve(amount, coins, n - 1, dp);
     }
 };
