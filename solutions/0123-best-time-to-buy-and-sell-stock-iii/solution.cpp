@@ -1,17 +1,31 @@
 class Solution {
-public:
-    int maxProfit(vector<int>& prices) {
-        int buy1 = INT_MIN, buy2 = INT_MIN;
-        int sell1 = 0, sell2 = 0;
+    int solve(vector<int>& prices, int i, int bought, int trans,
+              vector<vector<vector<int>>>& dp) {
+        if (i >= prices.size() || trans == 2)
+            return 0;
 
-        for(auto p : prices) {
-            buy1 = max(buy1, -p);
-            sell1 = max(sell1, p + buy1);
+        if (dp[i][bought][trans] != INT_MIN)
+            return dp[i][bought][trans];
+        if (!bought) {
+            int buy = solve(prices, i + 1, 1, trans, dp) - prices[i];
+            int notBuy = solve(prices, i + 1, 0, trans, dp);
 
-            buy2 = max(buy2, sell1 - p);
-            sell2 = max(sell2, buy2 + p);
+            return dp[i][bought][trans] = max(buy, notBuy);
         }
 
-        return sell2;
+        int sell = solve(prices, i + 1, 0, trans + 1, dp) + prices[i];
+        int notSell = solve(prices, i + 1, 1, trans, dp);
+
+        return dp[i][bought][trans] = max(sell, notSell);
+    }
+
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+
+        vector<vector<vector<int>>> dp(n,
+                                       vector<vector<int>>(2, vector<int>(2, INT_MIN)));
+
+        return solve(prices, 0, 0, 0, dp);
     }
 };
