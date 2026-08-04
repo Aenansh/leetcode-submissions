@@ -1,18 +1,22 @@
 class Solution {
 public:
     vector<int> findErrorNums(vector<int>& nums) {
-        vector<int> tab(nums.size() + 1, 0);
-        for(auto i : nums){
-            tab[i - 1] = i;
-        }
-        auto it = find(tab.begin(), tab.end(), 0);
-        int d = distance(tab.begin(), it) + 1;
-
         unordered_map<int, int> mp;
-        for(auto i : nums){
-            mp[i]++;
-            if(mp[i] > 1) return {i, d};
+
+        int n = nums.size();
+
+        int dup = -1;
+        for (int i = 0; i < n; i++) {
+            mp[nums[i]]++;
+            if (mp[nums[i]] > 1)
+                dup = nums[i];
         }
-        return {-1, -1};
+
+        for (int i = 1; i <= n; i++) {
+            if (mp.find(i) == mp.end()) {
+                return {dup, i};
+            }
+        }
+        return {};
     }
 };
