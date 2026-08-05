@@ -1,12 +1,10 @@
 class Solution {
-    void dfs(int node, vector<vector<int>>& adj, unordered_set<int>& sus,
-             vector<bool>& visited) {
+    void dfs(int node, vector<vector<int>>& adj, vector<bool>& visited) {
         visited[node] = true;
-        sus.insert(node);
+
         for (auto neib : adj[node]) {
-            if (!visited[neib]) {
-                dfs(neib, adj, sus, visited);
-            }
+            if (!visited[neib])
+                dfs(neib, adj, visited);
         }
     }
 
@@ -19,22 +17,24 @@ public:
             adj[u].push_back(v);
         }
 
-        unordered_set<int> sus;
         vector<bool> visited(n, false);
-        dfs(k, adj, sus, visited);
+        dfs(k, adj, visited);
 
         vector<int> ans;
+        int allGood = -1;
         for (auto edge : invocations) {
             int u = edge[0], v = edge[1];
-            if (!sus.count(u) && sus.count(v)) {
-                ans.resize(n);
-                iota(begin(ans), end(ans), 0);
-                return ans;
+            if (!visited[u] && visited[v]) {
+                allGood = 1;
+                break;
             }
         }
-        for(int i = 0; i < n; i++) {
-            if(!sus.count(i)) ans.push_back(i);
+
+        for (int i = 0; i < n; i++) {
+            if (!visited[i] || allGood == 1)
+                ans.push_back(i);
         }
+
         return ans;
     }
 };
