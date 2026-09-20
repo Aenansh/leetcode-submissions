@@ -3,8 +3,8 @@ public:
     int reverseDegree(string s) {
         int ans = 0;
         for(int i = 0; i < s.length(); i++) {
-            int rep = 26 - (int)(s[i] - 'a');
-            ans += rep * (i + 1);
+            char c = s[i];
+            ans += (i + 1) * (26 - (c - 'a'));
         }
 
         return ans;
