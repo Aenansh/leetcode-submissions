@@ -1,21 +1,23 @@
 class Solution {
-public:
-    void function(vector<string> &ans, string s, int open, int close) {
-        if(open == 0 && close == 0)  {
-            ans.push_back(s);
+    void backtrack(vector<string>& ans, string comb, int op, int cl) {
+        if (cl == 0 && op == 0) {
+            ans.push_back(comb);
             return;
         }
-        if(open > 0) {
-            function(ans, s + "(", open - 1, close);
+
+        if (op > 0) {
+            backtrack(ans, comb + '(', op - 1, cl);
         }
 
-        if(close > open) {
-            function(ans, s + ")", open, close - 1);
+        if (op < cl) {
+            backtrack(ans, comb + ')', op, cl - 1);
         }
     }
+
+public:
     vector<string> generateParenthesis(int n) {
         vector<string> ans;
-        function(ans, "", n, n);
+        backtrack(ans, "", n, n);
         return ans;
     }
 };
