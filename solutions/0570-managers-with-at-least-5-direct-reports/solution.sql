@@ -4,4 +4,4 @@ from employee m
 inner join employee e
 on m.id = e.managerId
 group by e.managerId
-having count(e.managerId) >= 5
+having count(e.managerId) >= 5;
