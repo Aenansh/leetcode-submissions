@@ -2,9 +2,8 @@
 select s.machine_id, round(avg(e.timestamp - s.timestamp), 3) as processing_time
 from activity as s
 inner join activity as e
-on s.machine_id = e.machine_id 
+on s.machine_id = e.machine_id
 and s.process_id = e.process_id 
-and s.activity_type = 'start'
+and s.activity_type = 'start' 
 and e.activity_type = 'end'
-group by
-s.machine_id
+group by s.machine_id;
